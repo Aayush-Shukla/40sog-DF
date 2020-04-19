@@ -20,9 +20,9 @@
 
 
             body #selector {
-                font-size: 4vh;
-                text-align: justify;
-                padding-top: 30vh;
+                font-size: 5vw;
+                text-align: center;
+                padding-top: 40vh;
             }
 
             body .square {
@@ -300,11 +300,11 @@
         </div>
 
         <div id="selector">
-            <input type="radio" value="1" name="choice" onclick="selector(this)"><strong>Difficulty 1:</strong> Each tile has 2 layers.</input>
+            <input type="radio" value="1" name="choice" onclick="selector(this)"><strong>Difficulty 1:</strong> 40 tiles.</input>
             <br>
             <br>
             <br>
-            <input type="radio" value="2" name="choice" onclick="selector(this)"><strong>Difficulty 2:</strong>Each tile has random layer and 2 second penalty for choosing wrong tile.</input>
+            <input type="radio" value="2" name="choice" onclick="selector(this)"><strong>Difficulty 2:</strong> 60 tiles.</input>
         </div>
     </div>
 
@@ -327,6 +327,7 @@
         var high_scores = document.getElementsByClassName("highscore")
         var cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
         let later = [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40];
+        let lvl2 = [41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60];
 
         var seq = 1;
         let lseq = 0;
@@ -345,6 +346,11 @@
 
         function selector(e) {
             mode = e.value;
+            if (mode==2){
+
+                later.push.apply(later,lvl2);
+                console.log(later)
+            }
             document.getElementById("selector").style.display = "none";
             document.getElementById("game").style.display = "table";
             layout();
@@ -391,38 +397,32 @@
                 case '2':
                     if (e.innerHTML == seq) {
                         playSound("right")
-                        console.log(lseq)
+
+
                         if (e.innerHTML == 1) {
                             start()
-                        } else if (e.innerHTML == 40) {
-                            e.className = "tapped";
+                        } else if (e.innerHTML == 60) {
                             e.style.backgroundColor = "white";
+                            e.className = "tapped";
                             e.innerHTML = '';
                             stop()
                         }
-                        if ((Math.random() < 0.45 && actv > 2) || lseq == 20) {
+                        if (e.innerHTML > 40) {
                             e.className = "tapped";
                             e.style.backgroundColor = "white";
                             e.innerHTML = '';
-                            actv--;
                         } else {
+
                             e.innerHTML = later[lseq];
                             e.className = "square " + later[lseq];
-                            e.style.backgroundColor = "rgb(" + (200 - 4 * later[lseq]) + "," + (200 - 4 * later[lseq]) + "," + (200 - 4 * later[lseq]) + ")";
+                            e.style.backgroundColor = "rgb(" + (200 - 3 * later[lseq]) + "," + (200 - 3 * later[lseq]) + "," + (200 - 3 * later[lseq]) + ")";
                             lseq++;
                         }
                         seq++;
-
                     } else {
                         playSound("wrong")
-                        sec = parseInt(sec)
-                        sec += 1;
-                        if (sec.toString().length < 2) {
-                            sec = '0' + sec.toString()
-                        }
 
                     }
-                    console.log(typeof sec)
                     break;
 
             }
